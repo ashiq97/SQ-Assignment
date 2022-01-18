@@ -1,0 +1,47 @@
+﻿@model List<Assignment1.Models.Product>
+
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+
+@{
+    var i = 0;
+}
+
+
+<div>
+    <table id="ProductListTable" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>Expie Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@(i=i+1)</td>
+                    <td>@product.ProductCode</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td>@product.Type</td>
+                    <td>@product.ExpireDate.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    //cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css
+    $(document).ready(function () {
+        $('#ProductListTable').DataTable();
+        
+    });
+</script>

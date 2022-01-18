@@ -1,0 +1,112 @@
+﻿
+<a class="btn btn-info" id="newBtn" onclick="javascript: ClearInputTextFields()">+ New</a>
+<div class="col-md-12">
+    <div class="form-group">
+        <label>Product Code*</label>
+        <input type="text" class="form-control" id="productCode"/>
+        <span id="productCode_alert" style="display:none;color:red"></span>
+    </div>
+    <div class="form-group">
+        <label>Product Name*</label>
+        <input type="text" class="form-control" id="productName" />
+        <span id="productName_alert" style="display:none;color:red"></span>
+
+    </div>
+    <div class="form-group">
+        <label>Product Description</label>
+        <textarea rows="4" cols="4" class="form-control" id="productDescription"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Product Price*</label>
+        <input type="number" class="form-control" id="productPrice"/>
+        <span id="productPrice_alert" style="display:none;color:red"></span>
+    </div>
+    <div class="form-group">
+        <label>Type</label>
+        <select class="form-control" id="productType">
+            <option value="Local">Local</option>
+            <option value="Imported">Imported</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Expire Date</label>
+        <input type="date" class="form-control" id="exp-date"/>
+    </div>
+
+    <a class="btn btn-success form-control" id="saveBtn" onclick="saveData()">Save</a>
+</div>
+
+<script>
+    function saveData() {
+        var productCode = $("#productCode").val();
+        var productName = $("#productName").val();
+        var description = $("#productDescription").val();
+        var price = $("#productPrice").val();
+        var type = $("#productType option:selected").text();
+        var expireDate = $("#exp-date").val();
+        var errorFlag = 0;
+
+
+        if (productCode == "") {
+            $("#productCode_alert").text("Product Code is required");
+            $("#productCode_alert").show();
+            errorFlag = 1;
+        } else {
+            $("#productCode_alert").hide();
+        }
+
+        if (productName == "") {
+            $("#productName_alert").text("Product Name is required");
+            $("#productName_alert").show();
+            errorFlag = 1;
+        } else {
+            $("#productName_alert").hide();
+        }
+
+        if (price == "" || price == 0) {
+            $("#productPrice_alert").text("Price is required and Not 0 value");
+            $("#productPrice_alert").show();
+            errorFlag = 1;
+        } else {
+            $("#productPrice_alert").hide();
+        }
+
+        if (errorFlag == 1)
+            return;
+
+        var modelData =
+        {
+            ProductCode: productCode,
+            ProductName: productName,
+            Description: description,
+            Price: price,
+            Type: type,
+            ExpireDate: expireDate
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "/Product/CreateProduct",
+            data: modelData,
+            success(response) {
+                if (response.success == false)
+                    alert(response.message)
+                else {
+                    $("#tableContainer").html(response);
+                    ClearInputTextFields();
+                }
+            },
+            error(response) {
+                alert("error");
+            }
+        });
+    }
+    function ClearInputTextFields() {
+        document.getElementById('productCode').value = "";
+        document.getElementById('productName').value = "";
+        document.getElementById('productDescription').value = "";
+        document.getElementById('productPrice').value = "";
+        document.getElementById('exp-date').value = "";
+        $("#productType").val("Local");
+    }
+</script>

@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div class="col-md-12" style="margin-top:3%">
+    <div class="col-md-4">
+        <div id="actionContainer">
+            @* to create table Data*@
+            @Html.Partial("_CreateProductData")
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h2 style="text-align:center">Product List</h2>
+        @* show table data*@
+        @*@Html.Partial("_ShowProductData")*@
+        <div id="tableContainer">
+            @{
+                Html.RenderAction("GetProductList");
+            }
+        </div>
+    </div>
+</div>
+
+
